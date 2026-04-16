@@ -4,7 +4,7 @@
 
 ## Xem Website Trực Tiếp
 
-- Vercel (Production): https://designer-portfolio-omega-six.vercel.app
+- Vercel (Production): https://designer-portfolio-amber.vercel.app/vi
 
 ## Mục Tiêu Của Website
 

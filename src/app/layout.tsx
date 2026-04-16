@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro, JetBrains_Mono } from "next/font/google";
 
+import SmoothScrollProvider from "@/components/animations/smooth-scroll-provider";
+
 import "./globals.css";
 
 const beVietnamBody = Be_Vietnam_Pro({
@@ -25,8 +27,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Thuan Studio Portfolio",
-    template: "%s | Thuan Studio",
+    default: "Noirr Portfolio",
+    template: "%s | Noirr",
   },
   description:
     "Premium bilingual designer portfolio crafted with Next.js App Router, GSAP, R3F, Lenis, and Sanity-ready architecture.",
@@ -44,7 +46,7 @@ export default function RootLayout({
       className={`${beVietnamBody.variable} ${beVietnamHeading.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        {children}
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>
   );

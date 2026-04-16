@@ -96,7 +96,7 @@ export interface PortfolioDictionary {
 const dictionaries: Record<Locale, PortfolioDictionary> = {
   vi: {
     localeLabel: "Tiếng Việt",
-    brand: "Thuận Studio",
+    brand: "Noirr",
     role: "Brand Story & Visual Direction",
     nav: [
       { label: "Dự án", href: "#work" },
@@ -106,7 +106,7 @@ const dictionaries: Record<Locale, PortfolioDictionary> = {
     ],
     hero: {
       eyebrow: "Portfolio cao cấp cho Designer",
-      title: "Thiết kế có chiều sâu,\nchuyển hóa thành trải nghiệm số mượt mà",
+      title: "Thiết kế có chiều sâu, chuyển hóa thành trải nghiệm số mượt mà",
       subtitle: "Không gian số được dàn dựng như một editorial sống động.",
       description:
         "Mỗi khung hình tập trung vào nhịp thị giác, chất liệu và cảm xúc thương hiệu, để người xem cảm nhận được cá tính ngay từ lần chạm đầu tiên.",
@@ -252,7 +252,7 @@ const dictionaries: Record<Locale, PortfolioDictionary> = {
   },
   en: {
     localeLabel: "English",
-    brand: "Thuan Studio",
+    brand: "Noirr",
     role: "Brand Story & Visual Direction",
     nav: [
       { label: "Work", href: "#work" },
@@ -262,7 +262,7 @@ const dictionaries: Record<Locale, PortfolioDictionary> = {
     ],
     hero: {
       eyebrow: "Premium portfolio for designers",
-      title: "Deep visual thinking,\ntranslated into smooth digital experiences",
+      title: "Deep visual thinking, translated into smooth digital experiences",
       subtitle: "A digital space staged like a living editorial experience.",
       description:
         "Each frame is shaped around visual rhythm, texture, and brand emotion, so the audience can feel a distinct design voice from the very first interaction.",

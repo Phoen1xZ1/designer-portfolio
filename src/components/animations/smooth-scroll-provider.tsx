@@ -1,11 +1,16 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useRef } from "react";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
+
+import { useParallaxMedia } from "@/hooks/use-parallax-media";
+import { useTextReveal } from "@/hooks/use-text-reveal";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -14,6 +19,9 @@ interface SmoothScrollProviderProps {
 }
 
 const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) => {
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
+
   useGSAP(() => {
     const lenis = new Lenis({
       autoRaf: false,
@@ -42,7 +50,10 @@ const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) => {
     };
   }, []);
 
-  return <>{children}</>;
+  useTextReveal(rootRef, undefined, [pathname]);
+  useParallaxMedia(rootRef, undefined, [pathname]);
+
+  return <div ref={rootRef}>{children}</div>;
 };
 
 export default SmoothScrollProvider;

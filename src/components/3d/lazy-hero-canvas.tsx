@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 const HeroCanvas = dynamic(() => import("@/components/3d/hero-canvas"), {
   ssr: false,
   loading: () => (
-    <div className="h-full w-full bg-linear-to-br from-[#eef1f5]/90 via-transparent to-[#dfe5ed]/65" />
+    <div className="h-full w-full animate-pulse rounded-[2rem] bg-linear-to-br from-primary/10 via-transparent to-foreground/5" />
   ),
 });
 
@@ -17,21 +17,21 @@ const LazyHeroCanvas = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const desktopViewport = window.matchMedia("(min-width: 1080px)");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const desktopViewport = window.matchMedia("(min-width: 1024px)");
 
     const updatePreference = () => {
-      setAllowCanvas(desktopViewport.matches && !reducedMotion.matches);
+      setAllowCanvas(!reducedMotion.matches && desktopViewport.matches);
     };
 
     updatePreference();
 
-    desktopViewport.addEventListener("change", updatePreference);
     reducedMotion.addEventListener("change", updatePreference);
+    desktopViewport.addEventListener("change", updatePreference);
 
     return () => {
-      desktopViewport.removeEventListener("change", updatePreference);
       reducedMotion.removeEventListener("change", updatePreference);
+      desktopViewport.removeEventListener("change", updatePreference);
     };
   }, []);
 
@@ -47,7 +47,7 @@ const LazyHeroCanvas = () => {
           observer.disconnect();
         }
       },
-      { rootMargin: "220px" },
+      { rootMargin: "180px" },
     );
 
     observer.observe(containerRef.current);
@@ -60,7 +60,7 @@ const LazyHeroCanvas = () => {
       {allowCanvas && isVisible ? (
         <HeroCanvas />
       ) : (
-        <div className="h-full w-full bg-linear-to-br from-[#f5f8fb] via-[#ebf1f7] to-[#dfe7f0]" />
+        <div className="h-full w-full rounded-[2rem] bg-linear-to-br from-primary/10 via-transparent to-foreground/5" />
       )}
     </div>
   );

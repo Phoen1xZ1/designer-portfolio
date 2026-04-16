@@ -128,17 +128,7 @@
   }
 
   html {
-    @apply font-sans;
-    scroll-padding-top: 7rem;
-  }
-
-  html.lenis,
-  html.lenis body {
-    height: auto;
-  }
-
-  .lenis.lenis-smooth {
-    scroll-behavior: auto !important;
+    @apply font-sans scroll-smooth;
   }
 
   body {
@@ -154,18 +144,5 @@
   a {
     color: inherit;
     text-decoration: none;
-  }
-
-  .text-reveal-mask {
-    display: inline-flex;
-    overflow: hidden;
-    vertical-align: baseline;
-    padding-top: 0.14em;
-    padding-bottom: 0.14em;
-  }
-
-  .text-reveal-word {
-    display: inline-block;
-    will-change: transform, opacity;
   }
 }

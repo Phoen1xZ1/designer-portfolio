@@ -96,8 +96,8 @@ export interface PortfolioDictionary {
 const dictionaries: Record<Locale, PortfolioDictionary> = {
   vi: {
     localeLabel: "Tiếng Việt",
-    brand: "Noirr",
-    role: "Creative Developer & Visual Direction",
+    brand: "Thuận Studio",
+    role: "Brand Story & Visual Direction",
     nav: [
       { label: "Dự án", href: "#work" },
       { label: "Quy trình", href: "#process" },
@@ -252,8 +252,8 @@ const dictionaries: Record<Locale, PortfolioDictionary> = {
   },
   en: {
     localeLabel: "English",
-    brand: "Noirr",
-    role: "Creative Developer & Visual Direction",
+    brand: "Thuan Studio",
+    role: "Brand Story & Visual Direction",
     nav: [
       { label: "Work", href: "#work" },
       { label: "Process", href: "#process" },

@@ -1,48 +1,76 @@
-# Thuận Studio Portfolio
+# Noirr — Designer Portfolio
 
-Đây là website portfolio cá nhân của Thuận, dùng để giới thiệu phong cách thiết kế, dự án đã làm, quy trình làm việc và năng lực chuyên môn theo cách ngắn gọn, dễ xem.
+Website portfolio cao cấp dành cho designer, tập trung vào storytelling thị giác, motion tinh tế và trải nghiệm số mượt mà. Dự án được xây dựng song ngữ VI/EN để dễ dàng chia sẻ cho khách hàng trong và ngoài nước.
 
-## Xem Website Trực Tiếp
+## Tổng quan
 
-- Vercel (Production): https://designer-portfolio-amber.vercel.app/vi
+- Mục tiêu: trình bày dự án, quy trình và năng lực thiết kế theo nhịp nội dung mang chất editorial.
+- Định hướng: trải nghiệm mượt, giàu cảm xúc nhưng vẫn tối ưu hiệu năng và khả năng truy cập.
+- Điều hướng: trang gốc tự chuyển về ngôn ngữ mặc định `/vi`, có thể chuyển sang `/en`.
 
-## Mục Tiêu Của Website
+## Tính năng nổi bật từ codebase
 
-- Giúp người xem hiểu nhanh Thuận là ai và thế mạnh chính là gì.
-- Trình bày các dự án tiêu biểu theo format dễ đọc.
-- Thể hiện quy trình làm việc rõ ràng để tạo sự tin tưởng.
-- Cung cấp điểm liên hệ nhanh ở cuối trang.
+- Đa ngôn ngữ VI/EN với định tuyến theo locale, chuyển ngôn ngữ mượt bằng View Transition khi trình duyệt hỗ trợ.
+- Motion mượt 60fps: GSAP + ScrollTrigger kết hợp Lenis cho smooth scroll, text reveal và parallax theo chiều cuộn.
+- Hero 3D realtime bằng React Three Fiber/Three.js, lazy load theo viewport và tôn trọng `prefers-reduced-motion`.
+- Header ẩn/hiện thông minh theo hành vi cuộn, giữ tập trung vào nội dung chính.
+- Typography và layout có chủ đích (Be Vietnam Pro + JetBrains Mono), nhấn mạnh tinh thần portfolio designer.
 
-## Người Xem Sẽ Thấy Gì Trên Trang
+## Tech Stack
 
-1. Hero: phần giới thiệu ngắn về định hướng thương hiệu và phong cách thiết kế.
-2. Dự án: các case study nổi bật, gồm bài toán, kết quả và công cụ đã dùng.
-3. Quy trình: các chặng kinh nghiệm và điểm nổi bật theo từng giai đoạn.
-4. Năng lực: các nhóm năng lực cốt lõi về thị giác, bố cục và motion.
-5. Liên hệ: khu vực call-to-action để gửi email trao đổi dự án.
+**Core**
+- Next.js (App Router)
+- React 19
+- TypeScript
 
-## Hướng Dẫn Nhanh Cho Người Không Rành Code
+**Styling & UI**
+- Tailwind CSS v4
+- shadcn/ui
+- Base UI (`@base-ui/react`)
+- class-variance-authority
+- clsx
+- tailwind-merge
+- tw-animate-css
 
-- Mở link website ở mục Vercel bên trên.
-- Dùng menu trên đầu trang để nhảy nhanh đến Dự án, Quy trình, Năng lực, Liên hệ.
-- Dùng nút VI/EN để chuyển ngôn ngữ.
+**Animation & Motion**
+- GSAP (`gsap`, `@gsap/react`, `ScrollTrigger`)
+- Lenis
 
-## Thông Tin Kỹ Thuật (Tóm Tắt)
+**3D & Canvas**
+- Three.js
+- @react-three/fiber
+- @react-three/drei
 
-- Framework: Next.js (App Router) + TypeScript
-- Styling: Tailwind CSS
-- Triển khai: Vercel
+**Content / CMS-ready**
+- next-sanity (chuẩn bị sẵn để mở rộng CMS)
+- @portabletext/react
+- @sanity/image-url
 
-## Chạy Local (Dành Cho Dev)
+**Icons**
+- lucide-react
+- @phosphor-icons/react
+
+**Tooling**
+- ESLint
+- PostCSS (`@tailwindcss/postcss`)
+- Babel React Compiler (`babel-plugin-react-compiler`)
+
+**Deploy**
+- Vercel
+
+## Hướng dẫn chạy Local (Dành cho Dev)
 
 ```bash
 npm install
 npm run dev
 ```
 
-Mở http://localhost:3000 để xem bản local.
+Mở http://localhost:3000 (sẽ tự điều hướng về `/vi`).
 
-## Liên Kết Dự Án
+## Scripts hữu ích
 
-- GitHub Repository: https://github.com/Phoen1xZ1/designer-portfolio
-- Vercel Production: https://designer-portfolio-omega-six.vercel.app
+```bash
+npm run build
+npm run start
+npm run lint
+```

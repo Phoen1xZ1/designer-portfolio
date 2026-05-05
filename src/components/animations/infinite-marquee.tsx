@@ -1,81 +1,136 @@
 "use client";
 
-import { useRef } from "react";
+import type { ReactNode } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { usePathname } from "next/navigation";
 
 interface InfiniteMarqueeProps {
-  text: string;
+  text?: string;
+  children?: ReactNode;
   className?: string;
+  ariaLabel?: string;
 }
 
-const InfiniteMarquee = ({ text, className }: InfiniteMarqueeProps) => {
+const InfiniteMarquee = ({ text, children, className, ariaLabel }: InfiniteMarqueeProps) => {
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const itemRef = useRef<HTMLParagraphElement | null>(null);
+  const itemRef = useRef<HTMLDivElement | null>(null);
+  const hasChildren = Boolean(children);
+  const pathname = usePathname();
 
-  useGSAP(
-    () => {
-      if (
-        !trackRef.current ||
-        !itemRef.current ||
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
-        return;
+  const repeated = useMemo(() => {
+    if (!text) {
+      return "";
+    }
+
+    return Array.from({ length: 6 }, () => text).join("  //  ");
+  }, [text]);
+
+  useEffect(() => {
+    if (
+      !trackRef.current ||
+      !itemRef.current ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      return;
+    }
+
+    let tween: gsap.core.Tween | null = null;
+    let rafId: number | null = null;
+    let resizeObserver: ResizeObserver | null = null;
+
+    const setupTicker = () => {
+      tween?.kill();
+      gsap.set(trackRef.current, { x: 0 });
+
+      const itemWidth = itemRef.current?.offsetWidth ?? 0;
+
+      if (itemWidth === 0) {
+        return false;
       }
 
-      let tween: gsap.core.Tween | null = null;
+      const pxPerSecond = window.innerWidth < 768 ? 22 : 28;
+      const duration = gsap.utils.clamp(40, 120, itemWidth / pxPerSecond);
 
-      const setupTicker = () => {
-        tween?.kill();
-        gsap.set(trackRef.current, { x: 0 });
+      tween = gsap.fromTo(
+        trackRef.current,
+        { x: 0 },
+        {
+          x: -itemWidth,
+          duration,
+          ease: "none",
+          repeat: -1,
+        },
+      );
 
-        const itemWidth = itemRef.current?.offsetWidth ?? 0;
+      return true;
+    };
 
-        if (itemWidth === 0) {
-          return;
-        }
+    const ensureTicker = () => {
+      if (!setupTicker()) {
+        rafId = window.requestAnimationFrame(ensureTicker);
+      }
+    };
 
-        const pxPerSecond = window.innerWidth < 768 ? 22 : 28;
-        const duration = gsap.utils.clamp(40, 120, itemWidth / pxPerSecond);
+    const ctx = gsap.context(() => {
+      ensureTicker();
+    }, trackRef);
 
-        tween = gsap.fromTo(
-          trackRef.current,
-          {
-            x: 0,
-          },
-          {
-            x: -itemWidth,
-            duration,
-            ease: "none",
-            repeat: -1,
-          },
-        );
-      };
+    const handleResize = () => ensureTicker();
 
-      setupTicker();
-      window.addEventListener("resize", setupTicker);
+    window.addEventListener("resize", handleResize);
 
-      return () => {
-        window.removeEventListener("resize", setupTicker);
-        tween?.kill();
-      };
-    },
-    { scope: trackRef, dependencies: [text] },
-  );
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        ensureTicker();
+      }
+    };
 
-  const repeated = Array.from({ length: 6 }, () => text).join("  //  ");
+    window.addEventListener("pageshow", handlePageShow);
+
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(() => ensureTicker());
+      resizeObserver.observe(itemRef.current);
+    }
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("pageshow", handlePageShow);
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+      resizeObserver?.disconnect();
+      tween?.kill();
+      ctx.revert();
+    };
+  }, [repeated, hasChildren, pathname]);
+
+  const label = ariaLabel ?? text;
 
   return (
-    <div className={className} aria-label={text}>
+    <div className={className} aria-label={label}>
       <div className="overflow-hidden border-y border-foreground/14 py-4 md:py-6">
         <div ref={trackRef} className="flex w-max items-center motion-safe:will-change-transform">
-          <p ref={itemRef} className="marquee-line shrink-0 pr-20 md:pr-24">
-            {repeated}
-          </p>
-          <p className="marquee-line shrink-0 pr-20 md:pr-24" aria-hidden>
-            {repeated}
-          </p>
+          {hasChildren ? (
+            <>
+              <div ref={itemRef} className="flex items-center">
+                {children}
+              </div>
+              <div className="flex items-center" aria-hidden>
+                {children}
+              </div>
+            </>
+          ) : (
+            <>
+              <div ref={itemRef} className="marquee-line shrink-0 pr-20 md:pr-24">
+                {repeated}
+              </div>
+              <div className="marquee-line shrink-0 pr-20 md:pr-24" aria-hidden>
+                {repeated}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

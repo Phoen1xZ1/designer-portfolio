@@ -22,7 +22,8 @@ const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
 
-  useGSAP(() => {
+  useGSAP(
+    () => {
     const lenis = new Lenis({
       autoRaf: false,
       duration: 1.08,
@@ -43,12 +44,14 @@ const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) => {
     });
     ScrollTrigger.refresh();
 
-    return () => {
-      gsap.ticker.remove(update);
-      lenis.off("scroll", ScrollTrigger.update);
-      lenis.destroy();
-    };
-  }, []);
+      return () => {
+        gsap.ticker.remove(update);
+        lenis.off("scroll", ScrollTrigger.update);
+        lenis.destroy();
+      };
+    },
+    { dependencies: [pathname] },
+  );
 
   useTextReveal(rootRef, undefined, [pathname]);
   useParallaxMedia(rootRef, undefined, [pathname]);

@@ -1,6 +1,7 @@
 "use client";
 
 import type { RefObject } from "react";
+import { usePathname } from "next/navigation";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -90,6 +91,7 @@ export const useTextReveal = (
   options?: UseTextRevealOptions,
   dependencies: unknown[] = [],
 ) => {
+  const pathname = usePathname();
   const {
     selector = "h1, h2, h3, [data-text-reveal]",
     start = "top 85%",
@@ -186,7 +188,7 @@ export const useTextReveal = (
     },
     {
       scope: scopeRef,
-      dependencies: [selector, start, duration, lineStagger, ...dependencies],
+      dependencies: [selector, start, duration, lineStagger, pathname, ...dependencies],
     },
   );
 };
